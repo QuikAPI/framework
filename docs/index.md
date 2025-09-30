@@ -40,7 +40,7 @@ GET http://127.0.0.1:8082/health
 ## CLI
 
 ```bash
-php QuikAPI/cli.php make:module Post \
+php quikapi make:module Post \
   fillable="title,body,user_id" \
   relations="user:belongsTo:User,user_id,id;comments:hasMany:Comment,post_id,id"
 ```
@@ -50,6 +50,7 @@ This generates:
 - Requests `QuikAPI/Requests/Post/{Index,Store,Update}Request.php`
 - Controller `QuikAPI/Controllers/PostController.php`
 - Routes appended to `QuikAPI/routes.php`
+
 
 ## Standard JSON Response
 

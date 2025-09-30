@@ -1,13 +1,19 @@
 # QuikAPI
-
-A lightweight, fast PHP microframework for building APIs quickly.
-
-- **Simple**: Minimal concepts. Define routes and controllers that return arrays.
-- **Fast**: Tiny core with zero heavy dependencies at runtime.
-- **Modern**: PSR-4, middleware, JSON-first, PDO-ready, `.env` support.
-- **Productive**: Built-in CLI to scaffold controllers/models/modules.
-
-## Requirements
+  
+  A lightweight, fast PHP microframework for building APIs quickly.
+  
+  [![Packagist Version](https://img.shields.io/packagist/v/quikapi/framework)](https://packagist.org/packages/quikapi/framework)
+  ![PHP from Packagist](https://img.shields.io/packagist/php-v/quikapi/framework)
+  [![Downloads](https://img.shields.io/packagist/dt/quikapi/framework)](https://packagist.org/packages/quikapi/framework)
+  [![License](https://img.shields.io/github/license/QuikAPI/framework)](LICENSE)
+  [![CI](https://github.com/QuikAPI/framework/actions/workflows/ci.yml/badge.svg?branch=master)](.github/workflows/ci.yml)
+  
+  - **Simple**: Minimal concepts. Define routes and controllers that return arrays.
+  - **Fast**: Tiny core with zeroheavy dependencies at runtime.
+  - **Modern**: PSR-4, middleware, JSON-first, PDO-ready, `.env` support.
+  - **Productive**: Built-in CLI to scaffold controllers/models/modules.
+  
+  ## Requirements
 
 - PHP >= 8.1
 - ext-PDO (e.g., pdo_mysql)
@@ -19,6 +25,7 @@ Option A — Create a fresh project (recommended):
 ```bash
 composer create-project quikapi/framework my-api
 cd my-api
+# .env will be auto-copied by composer scripts; if not:
 cp .env.example .env
 ```
 
@@ -108,15 +115,9 @@ $ok = Password::verify($plain, $hash);
 Built-in simple CLI to scaffold modules:
 
 ```bash
-php QuikAPI/cli.php make:controller User
-php QuikAPI/cli.php make:model User
-php QuikAPI/cli.php make:module Post
-```
-
-Or after `composer install`, you can use the bin:
-
-```bash
-php bin/quikapi make:module Post
+php quikapi make:controller User
+php quikapi make:model User
+php quikapi make:module Post
 ```
 
 This will append REST routes to `QuikAPI/routes.php` and create the controller/model.
@@ -142,6 +143,13 @@ QuikAPI/
 - Request/Response interfaces and typed responses
 - Validation utilities
 - Auth middleware (JWT/session)
+
+## Support & Policy
+
+- **Branching**: Default branch is `master`. Dev stability via branch-alias `dev-master` → `0.1.x-dev`.
+- **Versioning**: Semantic Versioning. Breaking changes only in major releases.
+- **Backward compatibility**: No breaking changes in minor releases; deprecations announced one minor before removal.
+- **Security**: See `SECURITY.md` and report privately before disclosure.
 
 ## License
 

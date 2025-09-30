@@ -13,21 +13,37 @@ class Request
     // Placeholder for authenticated user object (set by auth middleware in future)
     public $authUser = null;
 
-    public function __construct()
+    public function __construct(
+        ?string $method = null,
+        ?string $path = null,
+        ?array $headers = null,
+        ?array $query = null,
+        ?array $body = null,
+        mixed $rawBody = null
+    )
     {
-        $this->method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
-        $this->path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
-        $this->headers = $this->getAllHeaders();
-        $this->query = $_GET ?? [];
-        $this->rawBody = file_get_contents('php://input');
-        $contentType = $this->headers['Content-Type'] ?? $this->headers['content-type'] ?? '';
-        if (stripos($contentType, 'application/json') !== false) {
-            $decoded = json_decode($this->rawBody ?: '', true);
-            if (is_array($decoded)) {
-                $this->body = $decoded;
-            }
+        // Method & path
+        $this->method = $method ?? ($_SERVER['REQUEST_METHOD'] ?? 'GET');
+        $this->path = $path ?? (parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/');
+
+        // Headers & query
+        $this->headers = $headers ?? $this->getAllHeaders();
+        $this->query = $query ?? ($_GET ?? []);
+
+        // Body
+        $this->rawBody = $rawBody ?? file_get_contents('php://input');
+        if ($body !== null) {
+            $this->body = $body;
         } else {
-            $this->body = $_POST ?? [];
+            $contentType = $this->headers['Content-Type'] ?? $this->headers['content-type'] ?? '';
+            if (stripos($contentType, 'application/json') !== false) {
+                $decoded = json_decode($this->rawBody ?: '', true);
+                if (is_array($decoded)) {
+                    $this->body = $decoded;
+                }
+            } else {
+                $this->body = $_POST ?? [];
+            }
         }
     }
 

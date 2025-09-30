@@ -1,0 +1,33 @@
+<?php
+// Root-level QuikAPI runner to support: php quikapi make:...
+// Mirrors bin/quikapi but intended for project root usage (like Laravel's artisan).
+
+declare(strict_types=1);
+
+$autoloadPaths = [
+    __DIR__ . '/vendor/autoload.php',
+    __DIR__ . '/QuikAPI/../vendor/autoload.php',
+];
+
+$loaded = false;
+foreach ($autoloadPaths as $path) {
+    if (file_exists($path)) {
+        require $path;
+        $loaded = true;
+        break;
+    }
+}
+
+if (!$loaded) {
+    fwrite(STDERR, "Autoloader not found. Run 'composer install' first.\n");
+    exit(1);
+}
+
+$cli = __DIR__ . '/QuikAPI/cli.php';
+if (file_exists($cli)) {
+    require $cli;
+    exit(0);
+}
+
+fwrite(STDERR, "QuikAPI CLI entry not found at QuikAPI/cli.php.\n");
+exit(1);

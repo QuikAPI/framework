@@ -1,0 +1,42 @@
+#!/usr/bin/env php
+<?php
+// Composer bin proxy for QuikAPI CLI
+// Allows running: vendor/bin/quikapi or php bin/quikapi
+
+declare(strict_types=1);
+
+// Ensure autoload is available
+$autoloadPaths = [
+    __DIR__ . '/../vendor/autoload.php', // project context
+    __DIR__ . '/../../vendor/autoload.php', // when installed as dependency
+];
+
+$loaded = false;
+foreach ($autoloadPaths as $path) {
+    if (file_exists($path)) {
+        require $path;
+        $loaded = true;
+        break;
+    }
+}
+
+if (!$loaded) {
+    fwrite(STDERR, "Autoloader not found. Run 'composer install' first.\n");
+    exit(1);
+}
+
+// Delegate to project CLI
+$cliCandidates = [
+    __DIR__ . '/../cli.php',        // when used in project root
+    __DIR__ . '/../../cli.php',     // when installed via create-project
+];
+
+foreach ($cliCandidates as $cli) {
+    if (file_exists($cli)) {
+        require $cli;
+        exit(0);
+    }
+}
+
+fwrite(STDERR, "QuikAPI CLI entry not found. Expected cli.php near bin/.\n");
+exit(1);

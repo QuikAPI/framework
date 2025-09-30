@@ -1,0 +1,33 @@
+name: Bug report
+description: Report a bug in QuikAPI
+labels: [bug]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened and what did you expect?
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: QuikAPI version
+      placeholder: v0.1.0
+  - type: dropdown
+    id: php
+    attributes:
+      label: PHP Version
+      options:
+        - 8.1
+        - 8.2
+        - 8.3
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Minimal code snippet or steps to reproduce
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs/Stacktrace
